@@ -13,4 +13,4 @@ CREATE TABLE IF NOT EXISTS jobs (
                 skills TEXT[],
                 benefits TEXT[],
                 posted_date TIMESTAMP NOT NULL
-            )
+            );
