@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres3
+    restart: always
+    ports:
+      - "5062:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: job_post
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  backend:
+    build:
+      context: ./Backend
+    container_name: Backend3
+    ports:
+      - "3062:3062"
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      context: ./Fronted
+    container_name: Frontend3
+    ports:
+      - "8094:80"
+    depends_on:
+      - backend
+
+  hr:
+    build:
+      context: ./Hr
+    container_name: Hr3
+    ports:
+      - "8095:80"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
+
